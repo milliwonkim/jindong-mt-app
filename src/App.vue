@@ -2,8 +2,7 @@
   <div>
     <button class="info-button" @click="handleNextPerson">돌려돌려 돌림판</button>
     <div class="info-box">
-      <div>{{ person.name }}</div>
-      <div>{{ person.studentId }}</div>
+      <div>{{ person.name }} ({{ person.studentId }})</div>
       <div>주제: {{ theme }}</div>
     </div>
   </div>
@@ -22,7 +21,7 @@ const PEOPLE = [
   { name: '하헌재', studentId: 7 },
 ]
 
-const THEMES = ['연애', '일', '진로']
+const GET_OR_TAKE = ['질문받기', '질문하기']
 
 import { onMounted, ref } from 'vue'
 
@@ -34,15 +33,34 @@ export default {
 
     const selector = (value) => {
       if (value.length === 0) return ''
-      return Math.floor(Math.random() * (value.length - 1))
+      return Math.floor(Math.random() * value.length)
     }
 
     const getPerson = () => {
+      const THEMES = [
+        '연애',
+        '일',
+        '진로',
+        '한 잔 마셔',
+        '라떼는 말이야',
+        '질문 할 수 있는 권리 획득!',
+      ].map((el) => {
+        return `${el} (${GET_OR_TAKE[selector(GET_OR_TAKE)]})`
+      })
+
       const personSelector = selector(PEOPLE)
       const themeSelector = selector(THEMES)
 
-      person.value = PEOPLE[personSelector]
-      theme.value = THEMES[themeSelector]
+      const selectedPerson = PEOPLE[personSelector]
+      const selectedTheme = THEMES[themeSelector]
+
+      person.value = selectedPerson
+      theme.value = selectedTheme
+
+      // if (selectedPerson.name === '김기원') {
+      //   person.value = { name: '정수민', studentId: 12 }
+      //   theme.value = '한 잔 마셔'
+      // }
     }
 
     onMounted(() => {
@@ -72,6 +90,11 @@ export default {
 
 .info-box {
   margin-top: 16px;
+  border-radius: 8px;
+  box-shadow: 0px 10px 15px -3px rgba(0, 0, 0, 0.1);
+  width: fit-content;
+  margin: 0 auto;
+  padding: 16px;
 }
 
 .info-button {
