@@ -1,111 +1,46 @@
 <template>
-  <div>
-    <button class="info-button" @click="handleNextPerson">돌려돌려 돌림판</button>
-    <div class="info-box">
-      <div>{{ person.name }} ({{ person.studentId }})</div>
-      <div>주제: {{ theme }}</div>
-    </div>
-  </div>
+  <nav class="link-box">
+    <router-link
+      class="router"
+      v-for="game in games"
+      v-bind:key="game.id"
+      :to="game.path"
+      >{{ game.name }}</router-link
+    >
+  </nav>
+  <router-view />
 </template>
-
 <script>
-const PEOPLE = [
-  { name: '홍민기', studentId: 18 },
-  { name: '박수이', studentId: 17 },
-  { name: '안소현', studentId: 17 },
-  { name: '이상준', studentId: 16 },
-  { name: '김민주', studentId: 15 },
-  { name: '오효진', studentId: 15 },
-  { name: '김기원', studentId: 14 },
-  { name: '정수민', studentId: 12 },
-  { name: '하헌재', studentId: 7 },
-]
-
-const GET_OR_TAKE = ['질문받기', '질문하기']
-
-import { onMounted, ref } from 'vue'
-
+import { ref } from "vue";
 export default {
-  name: 'App',
+  name: "App",
   setup() {
-    const person = ref({})
-    const theme = ref('')
-
-    const selector = (value) => {
-      if (value.length === 0) return ''
-      return Math.floor(Math.random() * value.length)
-    }
-
-    const getPerson = () => {
-      const THEMES = [
-        '연애',
-        '일',
-        '진로',
-        '한 잔 마셔',
-        '라떼는 말이야',
-        '질문 할 수 있는 권리 획득!',
-      ].map((el) => {
-        return `${el} (${GET_OR_TAKE[selector(GET_OR_TAKE)]})`
-      })
-
-      const personSelector = selector(PEOPLE)
-      const themeSelector = selector(THEMES)
-
-      const selectedPerson = PEOPLE[personSelector]
-      const selectedTheme = THEMES[themeSelector]
-
-      person.value = selectedPerson
-      theme.value = selectedTheme
-
-      // if (selectedPerson.name === '김기원') {
-      //   person.value = { name: '정수민', studentId: 12 }
-      //   theme.value = '한 잔 마셔'
-      // }
-    }
-
-    onMounted(() => {
-      getPerson()
-    })
-
-    const handleNextPerson = () => {
-      getPerson()
-    }
-
-    console.log(person)
-
-    return { person, handleNextPerson, theme }
+    const games = ref([
+      { name: "상대방 맞춰보기", path: "/find-person", id: "1" },
+      { name: "질문하기", path: "/questions", id: "2" },
+    ]);
+    return { games };
   },
-}
+};
 </script>
-
-<style>
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
+<style lang="scss">
+@import url("~reset-css/reset.css");
+a {
+  text-decoration: none;
+  color: #424242;
 }
 
-.info-box {
-  margin-top: 16px;
+.router {
+  margin: 16px 0;
   border-radius: 8px;
   box-shadow: 0px 10px 15px -3px rgba(0, 0, 0, 0.1);
-  width: fit-content;
-  margin: 0 auto;
   padding: 16px;
 }
 
-.info-button {
-  border: 1px solid transparent;
-  padding: 8px;
-  border-radius: 16px;
-}
-
-.info-button:hover {
-  cursor: pointer;
-  color: #ffffff;
-  background: #2c3e50;
+.link-box {
+  width: 80vw;
+  margin: 0 auto;
+  display: flex;
+  justify-content: space-between;
 }
 </style>
