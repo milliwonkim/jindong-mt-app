@@ -5,19 +5,24 @@
       v-for="game in games"
       v-bind:key="game.id"
       :to="game.path"
-      >{{ game.name }}</router-link
     >
+      <game-card>
+        {{ game.name }}
+      </game-card>
+    </router-link>
   </nav>
   <router-view />
 </template>
 <script>
 import { ref } from "vue";
+import GameCard from "@/components/GameCard.vue";
 export default {
+  components: { GameCard },
   name: "App",
   setup() {
     const games = ref([
-      { name: "상대방 맞춰보기", path: "/find-person", id: "1" },
-      { name: "질문하기", path: "/questions", id: "2" },
+      { name: "상대방 맞춰보기 게임", path: "/questions", id: "1" },
+      { name: "밸런스 게임", path: "/balance", id: "2" },
     ]);
     return { games };
   },
@@ -30,17 +35,16 @@ a {
   color: #424242;
 }
 
+.link-box {
+  display: flex;
+  justify-content: space-between;
+  width: 80vw;
+  margin: 0 auto;
+}
+
 .router {
   margin: 16px 0;
   border-radius: 8px;
-  box-shadow: 0px 10px 15px -3px rgba(0, 0, 0, 0.1);
   padding: 16px;
-}
-
-.link-box {
-  width: 80vw;
-  margin: 0 auto;
-  display: flex;
-  justify-content: space-between;
 }
 </style>
