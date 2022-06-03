@@ -42,19 +42,21 @@ export default {
 
     const handleRoute = (prevOrNext) => {
       if (prevOrNext === PREV_NAV) {
+        elId.value = elId.value - 1;
         list.value = BALANCE_LIST.filter((el) => {
           if (el.id > 1) {
             return el.id === elId.value - 1;
           }
+          return el.id === 1;
         });
-        elId.value = elId.value - 1;
       } else {
+        elId.value = elId.value + 1;
         list.value = BALANCE_LIST.filter((el) => {
           if (el.id > 1) {
             return el.id === elId.value + 1;
           }
+          return el.id === BALANCE_LIST[BALANCE_LIST.length - 1].id;
         });
-        elId.value = elId.value + 1;
       }
     };
 
